@@ -16,16 +16,14 @@ jobs:
         uses: actions/checkout@v3
       - uses: bazelbuild/setup-bazelisk@v2
       - name: Mount bazel cache
-        if: ${{ !startsWith(matrix.os, 'windows') }}
         uses: actions/cache@v3
         with:
           path: ~/.cache/bazel
-          key: bazel-${{ matrix.os }}-cuda-${{ matrix.cuda-version }}-${{ hashFiles('.bazelversion') }}
+          key: bazel-ubuntu-latest-cuda-11.6.2-${{ hashFiles('.bazelversion') }}
       - name: Install CUDA (Linux)
         uses: Jimver/cuda-toolkit@v0.2.8
-        if: ${{ !startsWith(matrix.os, 'windows') }}
         with:
-          cuda: ${{ matrix.cuda-version }}
+          cuda: 11.6.2
           sub-packages: '["nvcc", "cudart-dev"]'
           method: network
       - name: bazel test //...
